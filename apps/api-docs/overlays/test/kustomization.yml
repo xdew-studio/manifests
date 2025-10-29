@@ -6,6 +6,7 @@ resources:
 
 patches:
   - target:
+      kind: Deployment
       name: api-docs
     patch: |-
       - op: replace
