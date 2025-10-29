@@ -6,3 +6,5 @@ resources:
   - ingress.yml
   - service.yml
   - serviceaccount.yml
+  - clusterrole.yml
+  - clusterrolebinding.yml
