@@ -22,6 +22,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: OPENAPI_URL
+              value: "https://api.xdew.ch/openapi.json"
           resources:
             requests:
               cpu: 10m
