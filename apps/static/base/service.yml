@@ -8,5 +8,5 @@ spec:
   ports:
     - name: static-svc-port
       protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 1234
+      targetPort: 4321
