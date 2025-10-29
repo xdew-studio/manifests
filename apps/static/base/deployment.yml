@@ -21,7 +21,7 @@ spec:
           image: ghcr.io/xdew-studio/static:2.0.0
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           resources:
             requests:
               cpu: 10m
@@ -31,12 +31,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 80
             initialDelaySeconds: 10
             timeoutSeconds: 5
           livenessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 80
             initialDelaySeconds: 15
             timeoutSeconds: 5
