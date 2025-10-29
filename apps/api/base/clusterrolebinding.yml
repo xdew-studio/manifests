@@ -5,8 +5,8 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: api
+    namespace: $(namespace)
 roleRef:
   kind: ClusterRole
   name: api
   apiGroup: rbac.authorization.k8s.io
-  namespace: $ARGOCD_APP_NAMESPACE
