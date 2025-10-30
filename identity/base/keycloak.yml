@@ -1,0 +1,40 @@
+apiVersion: k8s.keycloak.org/v1
+kind: Keycloak
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: keycloak-postgres-rw
+    usernameSecret:
+      name: keycloak-db-credentials
+      key: username
+    passwordSecret:
+      name: keycloak-db-credentials
+      key: password
+    database: keycloak-db
+  hostname:
+    hostname: auth.xdew.ch
+  http:
+    tlsSecret: keycloak-tls
+  ingress:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+  serverConfiguration:
+    - name: KC_HEALTH_ENABLED
+      value: "true"
+    - name: KC_METRICS_ENABLED
+      value: "true"
+    - name: KC_PROXY
+      value: "edge"
+  additionalOptions:
+    - name: log-level
+      value: INFO

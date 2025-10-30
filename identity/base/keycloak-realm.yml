@@ -1,0 +1,57 @@
+apiVersion: k8s.keycloak.org/v1
+kind: KeycloakRealmImport
+metadata:
+  name: identity-realm
+  labels:
+    app: keycloak
+spec:
+  keycloakCRName: keycloak
+  realm:
+    id: identity
+    realm: identity
+    displayName: "XDEW Identity"
+    enabled: true
+    loginTheme: xdew
+    sslRequired: external
+    registrationAllowed: false
+    resetPasswordAllowed: true
+    editUsernameAllowed: false
+    bruteForceProtected: true
+    permanentLockout: false
+    maxFailureWaitSeconds: 900
+    minimumQuickLoginWaitSeconds: 60
+    waitIncrementSeconds: 60
+    quickLoginCheckMilliSeconds: 1000
+    maxDeltaTimeSeconds: 43200
+    failureFactor: 30
+    defaultSignatureAlgorithm: RS256
+    clients:
+      - clientId: api
+        name: "API Client"
+        enabled: true
+        clientAuthenticatorType: client-secret
+        redirectUris:
+          - "https://api.xdew.ch/*"
+        webOrigins:
+          - "https://api.xdew.ch"
+        protocol: openid-connect
+        publicClient: false
+        standardFlowEnabled: true
+        implicitFlowEnabled: false
+        directAccessGrantsEnabled: true
+        serviceAccountsEnabled: true
+        authorizationServicesEnabled: false
+        fullScopeAllowed: false
+        protocolMappers:
+          - name: groups
+            protocol: openid-connect
+            protocolMapper: oidc-group-membership-mapper
+            config:
+              full.path: "false"
+              id.token.claim: "true"
+              access.token.claim: "true"
+              claim.name: groups
+              userinfo.token.claim: "true"
+    groups:
+      - name: xdew-teams
+        path: /xdew-teams
