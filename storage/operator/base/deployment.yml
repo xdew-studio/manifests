@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-operator
+  labels:
+    app: storage-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storage-operator
+  template:
+    metadata:
+      labels:
+        app: storage-operator
+    spec:
+      serviceAccountName: storage-operator
+      containers:
+        - name: operator
+          image: ghcr.io/xdew-studio/storage-operator:1.4.0
+          imagePullPolicy: Always
+          env:
+            - name: STORAGE_INIT_VERSION
+              value: "1.4.3"
+            - name: OPERATOR_NAMESPACE
+              value: $(namespace)
+          envFrom:
+            - secretRef:
+                name: openstack-credentials
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "50m"
