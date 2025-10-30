@@ -23,7 +23,9 @@ spec:
             - name: STORAGE_INIT_VERSION
               value: "1.4.3"
             - name: OPERATOR_NAMESPACE
-              value: $(namespace)
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           envFrom:
             - secretRef:
                 name: openstack-credentials
