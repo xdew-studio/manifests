@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-proxy
+  labels:
+    app: auth-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-proxy
+  template:
+    metadata:
+      labels:
+        app: auth-proxy
+    spec:
+      containers:
+        - name: auth-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.12.0
+          ports:
+            - containerPort: 4180
+              protocol: TCP
+          args:
+            - --provider=keycloak-oidc
+            - --email-domain=*
+            - --upstream=file:///dev/null
+            - --http-address=0.0.0.0:4180
+            - --redirect-url=https://storage.xdew.ch/auth/callback
+            - --oidc-issuer-url=https://auth.xdew.ch/realms/identity
+            - --code-challenge-method=S256
+            - --allowed-group=/xdew-access/storage
+            - --proxy-prefix=/auth
+          envFrom:
+            - secretRef:
+                name: auth-proxy
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"

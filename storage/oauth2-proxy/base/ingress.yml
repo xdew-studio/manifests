@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth-proxy
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: xdew-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - storage.xdew.ch
+      secretName: auth-proxy-tls
+  rules:
+    - host: storage.xdew.ch
+      http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-proxy
+                port:
+                  number: 4180
