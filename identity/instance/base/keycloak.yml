@@ -28,13 +28,12 @@ spec:
       memory: 512Mi
     limits:
       memory: 1Gi
-  serverConfiguration:
-    - name: KC_HEALTH_ENABLED
-      value: "true"
-    - name: KC_METRICS_ENABLED
-      value: "true"
-    - name: KC_PROXY
-      value: "edge"
   additionalOptions:
+    - name: health-enabled
+      value: "true"
+    - name: metrics-enabled
+      value: "true"
+    - name: proxy
+      value: "edge"
     - name: log-level
       value: INFO
