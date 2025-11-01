@@ -51,9 +51,9 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: keycloak-admin-credentials
-                    key: username
+                    key: KEYCLOAK_ADMIN
               - name: KC_BOOTSTRAP_ADMIN_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: keycloak-admin-credentials
-                    key: password
+                    key: KEYCLOAK_ADMIN_PASSWORD
