@@ -6,6 +6,9 @@ metadata:
     app: keycloak
 spec:
   instances: 1
+  image: "ghcr.io/xdew-studio/keycloak:26.3.4-2.3.4"
+  imagePullSecrets:
+    - name: "xdew-pull-secret"
   db:
     vendor: postgres
     host: keycloak-postgres-rw
@@ -19,7 +22,10 @@ spec:
   hostname:
     hostname: auth.xdew.ch
   http:
+    httpEnabled: false
     tlsSecret: keycloak-tls
+  proxy:
+    headers: xforwarded
   ingress:
     enabled: false
   resources:
