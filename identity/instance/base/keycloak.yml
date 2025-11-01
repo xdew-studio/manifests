@@ -28,12 +28,32 @@ spec:
       memory: 512Mi
     limits:
       memory: 1Gi
-  additionalOptions:
-    - name: health-enabled
-      value: "true"
-    - name: metrics-enabled
-      value: "true"
-    - name: proxy
-      value: "edge"
-    - name: log-level
-      value: INFO
+  unsupported:
+    podTemplate:
+      spec:
+        strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 0
+            maxSurge: 1
+        containers:
+          - name: keycloak
+            env:
+              - name: KC_HTTP_ENABLED
+                value: "false"
+              - name: KC_PROXY_HEADERS
+                value: "xforwarded"
+              - name: QUARKUS_HTTP_HTTP2
+                value: "false"
+              - name: KC_HOSTNAME
+                value: "https://auth.xdew.ch"
+              - name: KC_BOOTSTRAP_ADMIN_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-admin-credentials
+                    key: username
+              - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-admin-credentials
+                    key: password
