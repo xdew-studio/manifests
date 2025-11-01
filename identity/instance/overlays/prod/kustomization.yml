@@ -11,4 +11,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/instances
-        value: 2
+        value: 1
