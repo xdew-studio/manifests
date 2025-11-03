@@ -4,8 +4,6 @@ kind: Kustomization
 resources:
   - ../../base
 
-namespace: mgmtp-apps
-
 patches:
   - target:
       kind: Deployment
@@ -14,3 +12,10 @@ patches:
       - op: replace
         path: /spec/replicas
         value: 1
+  - target:
+      kind: ClusterRoleBinding
+      name: api
+    patch: |-
+      - op: add
+        path: /subjects/0/namespace
+        value: mgmtp-apps
