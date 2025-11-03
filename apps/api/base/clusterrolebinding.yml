@@ -5,7 +5,6 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: api
-    namespace: $(namespace)
 roleRef:
   kind: ClusterRole
   name: api
