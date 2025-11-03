@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - ../../base
 
+namespace: mgmtt-apps
+
 patches:
   - target:
       kind: Deployment
