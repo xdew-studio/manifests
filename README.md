@@ -17,7 +17,6 @@ The XDEW Studio Manifests repository contains all Kubernetes deployment configur
 - [Structure](#structure)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Environments](#environments)
 - [Contributing](#contributing)
 
 ## Features
@@ -93,20 +92,6 @@ Secrets are managed through Kubernetes secrets:
 - API keys
 - TLS certificates
 - Keycloak configuration
-
-## Environments
-
-### Test
-
-- **Namespace**: `xdew-studio-test`
-- **Domain**: `test.xdew.studio`
-- **Resources**: Lower resource allocation for testing
-
-### Production
-
-- **Namespace**: `xdew-studio`
-- **Domain**: `xdew.studio`
-- **Resources**: Production-grade resource allocation
 
 ## Contributing
 
