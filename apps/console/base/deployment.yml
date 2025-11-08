@@ -18,7 +18,7 @@ spec:
         - name: xdew-pull-secret
       containers:
         - name: console
-          image: ghcr.io/xdew-studio/console:1.25.0
+          image: ghcr.io/xdew-studio/console:1.25.1
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
