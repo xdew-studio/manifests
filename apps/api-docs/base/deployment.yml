@@ -21,7 +21,7 @@ spec:
           image: ghcr.io/xdew-studio/api-docs:3.2.6
           imagePullPolicy: Always
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
           env:
             - name: OPENAPI_URL
               value: "https://api.xdew.ch/openapi.json"
@@ -34,12 +34,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 8000
+              port: 8080
             initialDelaySeconds: 10
             timeoutSeconds: 5
           livenessProbe:
             httpGet:
               path: /
-              port: 8000
+              port: 8080
             initialDelaySeconds: 15
             timeoutSeconds: 5
