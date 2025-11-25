@@ -15,6 +15,6 @@ parameters:
   numberOfReplicas: "2"
   staleReplicaTimeout: "30"
   unmapMarkSnapChainRemoved: ignored
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
