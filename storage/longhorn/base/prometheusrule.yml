@@ -1,0 +1,130 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-backup-alerts
+  labels:
+    prometheus: kube-prometheus
+    role: alert-rules
+spec:
+  groups:
+    - name: longhorn-backup
+      interval: 5m
+      rules:
+        - alert: LonghornBackupJobFailed
+          expr: |
+            longhorn_backup_state{state="error"} > 0
+          for: 5m
+          labels:
+            severity: critical
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup job failed"
+            description: "Backup job for volume {{ $labels.volume }} has failed. State: {{ $labels.state }}"
+
+        - alert: LonghornBackupNotCompleted
+          expr: |
+            time() - longhorn_backup_actual_size_bytes > 93600
+          for: 10m
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup not completed recently"
+            description: "No successful backup for volume {{ $labels.volume }} in the last 26 hours"
+
+        - alert: LonghornBackupTargetUnavailable
+          expr: |
+            longhorn_backup_target_available == 0
+          for: 5m
+          labels:
+            severity: critical
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup target unavailable"
+            description: "Backup target {{ $labels.backup_target }} is unavailable"
+
+        - alert: LonghornRecurringJobNotRunning
+          expr: |
+            longhorn_recurring_job_count{job_type="backup"} == 0
+          for: 30m
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Longhorn recurring backup job not running"
+            description: "Recurring backup job {{ $labels.job }} is not running"
+
+        - alert: LonghornBackupTooOld
+          expr: |
+            (time() - longhorn_volume_last_backup_timestamp_seconds) > 172800
+          for: 1h
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup is too old"
+            description: "Volume {{ $labels.volume }} has not been backed up in over 48 hours"
+
+        # Alert if backup retention is not being respected
+        - alert: LonghornBackupRetentionIssue
+          expr: |
+            longhorn_backup_count_for_volume > 20
+          for: 1h
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Too many backups retained for volume"
+            description: "Volume {{ $labels.volume }} has {{ $value }} backups, which may indicate retention policy is not working"
+
+        # Alert if backup is taking too long (more than 2 hours)
+        - alert: LonghornBackupDurationTooLong
+          expr: |
+            longhorn_backup_state{state="in_progress"} > 0
+            and
+            time() - longhorn_backup_start_timestamp_seconds > 7200
+          for: 5m
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup taking too long"
+            description: "Backup for volume {{ $labels.volume }} has been running for more than 2 hours"
+
+        # Alert if multiple backup targets are failing
+        - alert: LonghornMultipleBackupTargetsFailing
+          expr: |
+            count(longhorn_backup_target_available == 0) >= 2
+          for: 5m
+          labels:
+            severity: critical
+            component: longhorn
+          annotations:
+            summary: "Multiple Longhorn backup targets failing"
+            description: "{{ $value }} backup targets are currently unavailable"
+
+        # Alert if backup size is suspiciously small
+        - alert: LonghornBackupSizeTooSmall
+          expr: |
+            longhorn_backup_actual_size_bytes < 1024
+            and
+            longhorn_backup_state{state="completed"} > 0
+          for: 5m
+          labels:
+            severity: warning
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup size is suspiciously small"
+            description: "Backup for volume {{ $labels.volume }} is only {{ $value }} bytes, which may indicate an issue"
+
+        # Alert if backup target credentials are invalid
+        - alert: LonghornBackupTargetCredentialError
+          expr: |
+            longhorn_backup_target_credential_valid == 0
+          for: 5m
+          labels:
+            severity: critical
+            component: longhorn
+          annotations:
+            summary: "Longhorn backup target credentials invalid"
+            description: "Backup target {{ $labels.backup_target }} has invalid credentials"

@@ -6,3 +6,4 @@ resources:
   - ingress.yml
   - job.yml
   - backup.yml
+  - prometheusrule.yml
