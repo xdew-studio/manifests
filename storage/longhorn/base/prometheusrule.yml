@@ -84,7 +84,7 @@ spec:
 
         - alert: LonghornVolumeDegraded
           expr: |
-            longhorn_volume_robustness != 2
+            longhorn_volume_robustness == 2
             and
             longhorn_volume_state == 2
           for: 10m
@@ -93,7 +93,18 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn volume is degraded"
-            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in degraded state (robustness: {{ $value }})"
+            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in degraded state"
+
+        - alert: LonghornVolumeFaulted
+          expr: |
+            longhorn_volume_robustness == 3
+          for: 5m
+          labels:
+            severity: critical
+            component: longhorn
+          annotations:
+            summary: "Longhorn volume is faulted"
+            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in faulted state"
 
         - alert: LonghornSnapshotTooLarge
           expr: |
