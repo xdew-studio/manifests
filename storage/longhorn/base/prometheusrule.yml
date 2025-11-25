@@ -10,10 +10,10 @@ spec:
     - name: longhorn-backup
       interval: 5m
       rules:
-        # Alert if backup job failed (state = 3 means Error in Longhorn)
+        # Alert if backup job failed (state = 4 means Error in Longhorn)
         - alert: LonghornBackupJobFailed
           expr: |
-            longhorn_backup_state == 3
+            longhorn_backup_state == 4
           for: 5m
           labels:
             severity: critical
@@ -22,10 +22,10 @@ spec:
             summary: "Longhorn backup job failed"
             description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed (recurring_job: {{ $labels.recurring_job }})"
 
-        # Alert if backup is taking too long (state = 1 means InProgress)
+        # Alert if backup is taking too long (state = 2 means InProgress)
         - alert: LonghornBackupDurationTooLong
           expr: |
-            longhorn_backup_state == 1
+            longhorn_backup_state == 2
           for: 2h
           labels:
             severity: warning
@@ -39,7 +39,7 @@ spec:
           expr: |
             longhorn_backup_actual_size_bytes < 1048576
             and
-            longhorn_backup_state == 2
+            longhorn_backup_state == 3
           for: 5m
           labels:
             severity: warning
