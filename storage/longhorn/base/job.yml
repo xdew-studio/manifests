@@ -4,13 +4,13 @@ metadata:
   name: daily-zurich-dc4a-backup
 spec:
   concurrency: 2
-  cron: "*/10 * * * *"
+  cron: 23 2 * * *
   groups:
     - default
   labels:
     backup-target: zurich-dc4a
   name: daily-zurich-dc4a-backup
   parameters:
-    full-backup-interval: "6"
-  retain: 14
+    full-backup-interval: "5"
+  retain: 10
   task: backup
