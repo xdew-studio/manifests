@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - storageclass.yml
-  - storageclass-retain.yml
   - ingress.yml
+  - job.yml
+  - backup.yml

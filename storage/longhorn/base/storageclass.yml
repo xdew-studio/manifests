@@ -6,7 +6,7 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: driver.longhorn.io
 parameters:
-  backupTargetName: default
+  backupTargetName: zurich-dc4a
   dataEngine: v1
   dataLocality: disabled
   disableRevisionCounter: "true"
@@ -15,6 +15,6 @@ parameters:
   numberOfReplicas: "2"
   staleReplicaTimeout: "30"
   unmapMarkSnapChainRemoved: ignored
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 volumeBindingMode: Immediate
 allowVolumeExpansion: true

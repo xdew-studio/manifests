@@ -1,0 +1,17 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-zurich-dc4a-backup
+spec:
+  backupTarget: zurich-dc4a
+  concurrency: 2
+  cron: 0 2 * * *
+  groups:
+    - default
+  labels:
+    backup-target: zurich-dc4a
+  name: daily-zurich-dc4a-backup
+  parameters:
+    full-backup-interval: "6"
+  retain: 14
+  task: backup

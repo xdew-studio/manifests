@@ -1,0 +1,8 @@
+apiVersion: longhorn.io/v1beta2
+kind: BackupTarget
+metadata:
+  name: zurich-dc4a
+spec:
+  backupTargetURL: s3://backup@us-east-1/
+  credentialSecret: longhorn-backup-secret
+  pollInterval: 5m0s
