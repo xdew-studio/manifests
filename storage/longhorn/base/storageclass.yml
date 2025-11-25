@@ -6,7 +6,7 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: driver.longhorn.io
 parameters:
-  backupTargetName: zurich-dc4a
+  backupTargetName: default
   dataEngine: v1
   dataLocality: disabled
   disableRevisionCounter: "true"
