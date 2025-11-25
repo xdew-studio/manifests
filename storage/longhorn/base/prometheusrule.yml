@@ -10,7 +10,6 @@ spec:
     - name: longhorn-backup
       interval: 5m
       rules:
-        # Alert if backup job failed (state = 4 means Error in Longhorn)
         - alert: LonghornBackupJobFailed
           expr: |
             longhorn_backup_state == 4
@@ -22,7 +21,6 @@ spec:
             summary: "Longhorn backup job failed"
             description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed (recurring_job: {{ $labels.recurring_job }})"
 
-        # Alert if backup is taking too long (state = 2 means InProgress)
         - alert: LonghornBackupDurationTooLong
           expr: |
             longhorn_backup_state == 2
@@ -34,7 +32,6 @@ spec:
             summary: "Longhorn backup taking too long"
             description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has been running for more than 2 hours"
 
-        # Alert if backup size is suspiciously small (less than 1MB for completed backups)
         - alert: LonghornBackupSizeTooSmall
           expr: |
             longhorn_backup_actual_size_bytes < 1048576
@@ -48,7 +45,6 @@ spec:
             summary: "Longhorn backup size is suspiciously small"
             description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} is only {{ $value | humanize }}B, which may indicate an issue"
 
-        # Alert if no recent backups exist for a volume (no backup in last 26 hours)
         - alert: LonghornNoRecentBackup
           expr: |
             count by (volume) (longhorn_backup_state) == 0
@@ -64,7 +60,6 @@ spec:
             summary: "No recent Longhorn backup"
             description: "No backup found for volume {{ $labels.volume }} or PVC {{ $labels.pvc }} in namespace {{ $labels.pvc_namespace }}"
 
-        # Alert if too many backups exist for a single volume (more than 15, retention is 10)
         - alert: LonghornTooManyBackups
           expr: |
             count(longhorn_backup_state) by (volume, recurring_job) > 15
@@ -76,7 +71,6 @@ spec:
             summary: "Too many Longhorn backups retained"
             description: "Volume {{ $labels.volume }} has {{ $value }} backups for job {{ $labels.recurring_job }}, retention policy may not be working (expected max: 10)"
 
-        # Alert if volume is detached (state = 1) which means no backups will run
         - alert: LonghornVolumeDetached
           expr: |
             longhorn_volume_state == 1
@@ -88,7 +82,6 @@ spec:
             summary: "Longhorn volume is detached"
             description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is detached and won't be backed up"
 
-        # Alert if volume is in degraded state (robustness != 2)
         - alert: LonghornVolumeDegraded
           expr: |
             longhorn_volume_robustness != 2
@@ -102,7 +95,6 @@ spec:
             summary: "Longhorn volume is degraded"
             description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in degraded state (robustness: {{ $value }})"
 
-        # Alert if snapshot size is growing too large
         - alert: LonghornSnapshotTooLarge
           expr: |
             longhorn_snapshot_actual_size_bytes > 10737418240
@@ -114,7 +106,6 @@ spec:
             summary: "Longhorn snapshot is too large"
             description: "Snapshot {{ $labels.snapshot }} for volume {{ $labels.volume }} is {{ $value | humanize }}B (>10GB), which may impact backup performance"
 
-        # Alert on node storage capacity issues
         - alert: LonghornNodeStorageAlmostFull
           expr: |
             (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) > 0.85
@@ -126,7 +117,6 @@ spec:
             summary: "Longhorn node storage almost full"
             description: "Node {{ $labels.node }} storage is {{ $value | humanizePercentage }} full, which may impact backup operations"
 
-        # Alert if disk status is not schedulable (status should be 1)
         - alert: LonghornDiskNotSchedulable
           expr: |
             longhorn_disk_status != 1
