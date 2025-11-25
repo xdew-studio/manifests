@@ -4,7 +4,7 @@ metadata:
   name: daily-zurich-dc4a-backup
 spec:
   concurrency: 2
-  cron: 0 2 * * *
+  cron: "*/10 * * * *"
   groups:
     - default
   labels:
