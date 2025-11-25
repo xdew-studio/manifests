@@ -19,7 +19,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn backup job failed"
-            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed (recurring_job: {{ $labels.recurring_job }})"
+            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed with recurring_job {{ $labels.recurring_job }}"
 
         - alert: LonghornBackupDurationTooLong
           expr: |
@@ -43,7 +43,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn backup size is suspiciously small"
-            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} is only {{ $value | humanize }}B, which may indicate an issue"
+            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} is only {{ $value | humanize }}B which may indicate an issue"
 
         - alert: LonghornNoRecentBackup
           expr: |
@@ -69,7 +69,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Too many Longhorn backups retained"
-            description: "Volume {{ $labels.volume }} has {{ $value }} backups for job {{ $labels.recurring_job }}, retention policy may not be working (expected max: 10)"
+            description: "Volume {{ $labels.volume }} has {{ $value }} backups for job {{ $labels.recurring_job }} but retention policy expects max 10"
 
         - alert: LonghornVolumeDetached
           expr: |
@@ -80,7 +80,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn volume is detached"
-            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is detached and won't be backed up"
+            description: "Volume {{ $labels.volume }} with PVC {{ $labels.pvc }} in namespace {{ $labels.pvc_namespace }} is detached and will not be backed up"
 
         - alert: LonghornVolumeDegraded
           expr: |
@@ -93,7 +93,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn volume is degraded"
-            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in degraded state"
+            description: "Volume {{ $labels.volume }} with PVC {{ $labels.pvc }} in namespace {{ $labels.pvc_namespace }} is in degraded state"
 
         - alert: LonghornVolumeFaulted
           expr: |
@@ -104,7 +104,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn volume is faulted"
-            description: "Volume {{ $labels.volume }} (PVC: {{ $labels.pvc }}) in namespace {{ $labels.pvc_namespace }} is in faulted state"
+            description: "Volume {{ $labels.volume }} with PVC {{ $labels.pvc }} in namespace {{ $labels.pvc_namespace }} is in faulted state"
 
         - alert: LonghornSnapshotTooLarge
           expr: |
@@ -115,7 +115,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn snapshot is too large"
-            description: "Snapshot {{ $labels.snapshot }} for volume {{ $labels.volume }} is {{ $value | humanize }}B (>10GB), which may impact backup performance"
+            description: "Snapshot {{ $labels.snapshot }} for volume {{ $labels.volume }} is {{ $value | humanize }}B over 10GB limit which may impact backup performance"
 
         - alert: LonghornNodeStorageAlmostFull
           expr: |
@@ -126,7 +126,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn node storage almost full"
-            description: "Node {{ $labels.node }} storage is {{ $value | humanizePercentage }} full, which may impact backup operations"
+            description: "Node {{ $labels.node }} storage is {{ $value | humanizePercentage }} full which may impact backup operations"
 
         - alert: LonghornDiskNotSchedulable
           expr: |
@@ -137,4 +137,4 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn disk not schedulable"
-            description: "Disk {{ $labels.disk }} on node {{ $labels.node }} is not schedulable (status: {{ $value }})"
+            description: "Disk {{ $labels.disk }} on node {{ $labels.node }} is not schedulable with status {{ $value }}"
