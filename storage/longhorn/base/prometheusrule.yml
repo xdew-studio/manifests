@@ -19,7 +19,7 @@ spec:
             component: longhorn
           annotations:
             summary: "Longhorn backup job failed"
-            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed with recurring_job {{ $labels.recurring_job }}"
+            description: "Backup {{ $labels.backup }} for volume {{ $labels.volume }} has failed with recurring job {{ $labels.recurring_job }}"
 
         - alert: LonghornBackupDurationTooLong
           expr: |
