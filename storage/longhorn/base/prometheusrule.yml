@@ -47,11 +47,10 @@ spec:
 
         - alert: LonghornNoRecentBackup
           expr: |
-            count by (volume) (longhorn_backup_state) == 0
-            or
-            count by (pvc, pvc_namespace) (longhorn_volume_state == 2)
-            unless ignoring(backup, recurring_job)
-            count by (volume) (longhorn_backup_state)
+            longhorn_volume_state == 2
+            unless 
+            on (volume)
+            (count(longhorn_backup_state == 3) by (volume) > 0)
           for: 26h
           labels:
             severity: warning
