@@ -8,3 +8,6 @@ resources:
   - serviceaccount.yml
   - clusterrole.yml
   - clusterrolebinding.yml
+  - redis-pvc.yml
+  - redis-deployment.yml
+  - redis-service.yml
