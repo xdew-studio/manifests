@@ -14,6 +14,7 @@ spec:
       labels:
         app: api
     spec:
+      enableServiceLinks: false
       serviceAccountName: api
       imagePullSecrets:
         - name: xdew-pull-secret
