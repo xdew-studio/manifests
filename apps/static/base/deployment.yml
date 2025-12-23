@@ -18,7 +18,7 @@ spec:
         - name: xdew-pull-secret
       containers:
         - name: static
-          image: ghcr.io/xdew-studio/static:2.0.0
+          image: ghcr.io/xdew-studio/static:2.1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 80
