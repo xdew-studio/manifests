@@ -20,7 +20,7 @@ spec:
         - name: xdew-pull-secret
       containers:
         - name: api
-          image: ghcr.io/xdew-studio/api:1.21.1
+          image: ghcr.io/xdew-studio/api:1.21.2
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
