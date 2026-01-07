@@ -15,6 +15,7 @@ spec:
         app: storage-operator
     spec:
       serviceAccountName: storage-operator
+      priorityClassName: system-node-critical
       containers:
         - name: operator
           image: ghcr.io/xdew-studio/storage-operator:1.4.1
