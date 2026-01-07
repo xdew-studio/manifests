@@ -10,11 +10,10 @@ parameters:
   dataEngine: v1
   dataLocality: disabled
   disableRevisionCounter: "true"
-  fromBackup: ""
   fsType: ext4
   numberOfReplicas: "2"
   staleReplicaTimeout: "30"
   unmapMarkSnapChainRemoved: ignored
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
