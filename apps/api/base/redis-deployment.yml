@@ -14,9 +14,11 @@ spec:
       labels:
         app: redis
     spec:
+      imagePullSecrets:
+        - name: xdew-pull-secret
       containers:
         - name: redis
-          image: redis:7-alpine
+          image: ghcr.io/xdew-studio/redis:8.4.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6379
