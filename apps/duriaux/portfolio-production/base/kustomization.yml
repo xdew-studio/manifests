@@ -1,0 +1,7 @@
+# Managed by stencil. Changes made here are overwritten on the next sync.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yml
+- service.yml
+- ingress.yml

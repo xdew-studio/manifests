@@ -1,0 +1,28 @@
+# Managed by stencil. Changes made here are overwritten on the next sync.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: xdew-cloudflare
+  labels:
+    app: portfolio-production
+    app.kubernetes.io/managed-by: stencil
+    app.kubernetes.io/part-of: duriaux
+  name: portfolio-production
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: duriaux.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: portfolio-production
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - duriaux.dev
+    secretName: portfolio-production-tls
