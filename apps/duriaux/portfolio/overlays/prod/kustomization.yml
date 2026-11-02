@@ -8,10 +8,10 @@ patches:
 - patch: |-
     - op: replace
       path: /spec/rules/0/host
-      value: www.duriaux.dev
+      value: duriaux.dev
     - op: replace
       path: /spec/tls/0/hosts/0
-      value: www.duriaux.dev
+      value: duriaux.dev
   target:
     kind: Ingress
     name: portfolio
