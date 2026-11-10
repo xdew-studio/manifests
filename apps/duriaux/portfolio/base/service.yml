@@ -1,0 +1,17 @@
+# Managed by stencil. Changes made here are overwritten on the next sync.
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: portfolio
+    app.kubernetes.io/managed-by: stencil
+    app.kubernetes.io/part-of: duriaux
+  name: portfolio
+spec:
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: portfolio

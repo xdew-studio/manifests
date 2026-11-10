@@ -4,5 +4,16 @@ images:
 - name: ghcr.io/dwesh163/portfolio
   newTag: 1.0.0
 kind: Kustomization
+patches:
+- patch: |-
+    - op: replace
+      path: /spec/rules/0/host
+      value: duriaux.dev
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: duriaux.dev
+  target:
+    kind: Ingress
+    name: portfolio
 resources:
 - ../../base
